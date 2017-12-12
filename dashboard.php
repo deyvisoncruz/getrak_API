@@ -54,23 +54,15 @@ $json = json_decode($jToken );
         echo "<div>jti: " . $json->{'jti'} . "</div>";
         echo "<br />";
     */
-$c->updateTokenBD();
+
 $c->setURL("https://api.getrak.com/v0.1/localizacoes");
 
 echo "</br>";
 
 echo "</br>";
 
-$date=date_create("2013-03-15");
-date_add($date,date_interval_create_from_date_string("40 seconds"));
-echo date_format($date,"Y-m-d H:min:s");
 $jGet = $c->requestGet();
 
-echo  "------------------" . $c->verifyToken();
-if( $v== true)
-	echo "tesate"; 
-else 
-	echo "ffffffffffffff";
 
 $json = json_decode($jGet,FALSE );
 foreach ( $json->veiculos as $item)

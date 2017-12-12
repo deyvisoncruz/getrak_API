@@ -21,7 +21,24 @@
 		}
 		public function setURL( $a)
 		{
-			$this->URL=$a.'?access_token='.$this->getTokenBD();
+			$this->URL=$a.'?access_token='.$this->tokenUse();
+		}
+		
+		public function tokenUse()
+		{
+			$v = $this->verifyToken() ;
+			if($v)
+			{
+				return $this->getTokenBD();
+			}
+			else
+			{
+				
+				$this->updateTokenBD();
+				return $this->getTokenBD();
+				
+			}
+			
 		}
 		
 		public function updateTokenBD()
@@ -81,16 +98,21 @@
 				echo  $dados->expires_date_at ;
 				echo "<br>";
 				
+				echo $dados->atual;
+				echo "<br>";
+$data1 = new DateTime($dados->expires_date_at );
+$data2 = new DateTime($dados->atual);
+
 				
-				if ($dados->expires_date_at > $dados->atual)
-					return 1;
+				if ($data1>$data2)
+					return true;
 				else	
-					return 0;
+					return false;
 					
 			}
 			else
 			{
-				return 0;
+				return false;
 			}
 		}
 		
@@ -156,7 +178,6 @@
 				$err = curl_error($curl);
 				
 				curl_close($curl);
-				echo $response;
 				return $response;
 		}
 		
