@@ -1,0 +1,54 @@
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: sistema_getrack
+-- ------------------------------------------------------
+-- Server version	5.5.5-10.1.28-MariaDB
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `token`
+--
+
+DROP TABLE IF EXISTS `token`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `token` (
+  `id` int(5) NOT NULL,
+  `token` varchar(500) NOT NULL,
+  `token_type` varchar(255) NOT NULL,
+  `expires_in` int(11) DEFAULT NULL,
+  `scope` varchar(255) NOT NULL,
+  `jti` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `token`
+--
+
+LOCK TABLES `token` WRITE;
+/*!40000 ALTER TABLE `token` DISABLE KEYS */;
+INSERT INTO `token` VALUES (0,'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MTMwNDQ3NzcsInVzZXJfbmFtZSI6IntcImlkXCI6MjY4MTg4NixcInVzZXJuYW1lXCI6XCJjYW5kaWRhdG9cIixcIm5vbWVcIjpcImNhbmRpZGF0b1wiLFwic2lzdGVtYVwiOlwiZ2V0cmFrXCIsXCJhdGl2b1wiOlwiWVwiLFwic2VuaGF0ZW1wXCI6XCJOXCIsXCJjbGllbnRlXCI6Njk5OTYxLFwic3ViY2xpZW50ZVwiOjAsXCJ0aXBvXCI6M30iLCJhdXRob3JpdGllcyI6WyJnZXRyYWsiXSwianRpIjoiODc3OGJlNzItN2M3ZC00NGYwLTgwY2YtNmQ2Mzk5OTgzNWJmIiwiY2xpZW50X2lkIjoiZ2V0cmFrIiwic2NvcGUiOlsiUHVibGljb0NsaWVudGUiXX0.xvPhavq3m9uvAqpTs28kosFYG3FWbK7','bearer',899,'PublicoCliente','8778be72-7c7d-44f0-80cf-6d63999835bf');
+/*!40000 ALTER TABLE `token` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2017-12-12  0:07:37
