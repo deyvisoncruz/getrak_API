@@ -21,7 +21,7 @@
 		}
 		public function setURL( $a)
 		{
-			$this->URL=$a.'?access_token='.$this->getTokenOnline();
+			$this->URL=$a.'?access_token='.$this->getTokenBD();
 		}
 		
 		public function updateTokenBD()
@@ -31,9 +31,11 @@
 
 			$jToken = $this->requestPostOAuth();
 			$json = json_decode($jToken );
-
-			//echo $json->{'access_token'};
-			$sql = "update token set token='".  $json->{'access_token'}."',  token_type='".  $json->{'token_type'}."',  expires_in=".  $json->{'expires_in'}.",  scope='".  $json->{'scope'}."',  jti='".  $json->{'jti'}."' where id=0";
+			
+			$timeseg = $json->{'expires_in'} ;
+			
+			$exp = " ,expires_date_at = DATE_ADD(NOW(),INTERVAL ".$timeseg." SECOND) ";
+			$sql = "update token set token='".  $json->{'access_token'}."',  token_type='".  $json->{'token_type'}."',  expires_in=".  $json->{'expires_in'}.",  scope='".  $json->{'scope'}."',  jti='".  $json->{'jti'}."' ".$exp." where id=0";
 
 			$con = $pdo->prepare($sql );
 
@@ -56,6 +58,7 @@
 				return "sem token";
 			}
 		}
+		
 		public function getTokenOnline()
 		{
 			$this->setOAUTH_URL();
@@ -63,6 +66,32 @@
 			$jToken = $this->requestPostOAuth();
 			$json = json_decode($jToken );
 			return  $json->{'access_token'};
+		}
+		
+		
+		public function verifyToken()
+		{
+			$pdo = $this->getDB();
+
+			$con = $pdo->prepare("SELECT *,now() as atual FROM token where id=0");
+			$con->execute();
+			if ($con->rowCount() == 1)
+			{
+				$dados = $con->fetch(PDO::FETCH_OBJ);
+				echo  $dados->expires_date_at ;
+				echo "<br>";
+				
+				
+				if ($dados->expires_date_at > $dados->atual)
+					return 1;
+				else	
+					return 0;
+					
+			}
+			else
+			{
+				return 0;
+			}
 		}
 		
 		
@@ -83,7 +112,7 @@
 			  CURLOPT_POSTFIELDS => "validityInSec=120000",
 			  CURLOPT_HTTPHEADER => array(
 				"Authorization: Basic Z2V0cmFrOjI5MTViZjRhM2VkNQ==",      
-				"Content-Type: application/x-www-form-urlencoded",
+				"Content-Type: application/ x-www-form-urlencoded;charset=UTF-8",
 				 "Accept: application/json"
 			  ),
 			));
@@ -93,7 +122,9 @@
 				$err = curl_error($curl);
 				
 				curl_close($curl);
+				
 				return $response;
+				
 		}
 		
 		
@@ -115,7 +146,7 @@
 			  CURLOPT_POSTFIELDS => "validityInSec=120000",
 			  CURLOPT_HTTPHEADER => array(
 				"Authorization: Basic Z2V0cmFrOjI5MTViZjRhM2VkNQ==",      
-				"Content-Type: application/x-www-form-urlencoded",
+				"Content-Type: application/ x-www-form-urlencoded;charset=UTF-8",
 				 "Accept: application/json"
 			  ),
 			));
@@ -146,7 +177,7 @@
 			  CURLOPT_POSTFIELDS => "validityInSec=120000",
 			  CURLOPT_HTTPHEADER => array(
 				"Authorization: Basic Z2V0cmFrOjI5MTViZjRhM2VkNQ==",      
-				"Content-Type: application/x-www-form-urlencoded",
+				"Content-Type: application/ x-www-form-urlencoded;charset=UTF-8",
 				 "Accept: application/json"
 			  ),
 			));
