@@ -10,6 +10,11 @@
 		public $token;
 		public $con;
 		public $pdo ;
+		
+		public $listVeiculos; 
+		
+		
+		
 		const USER = "root";
 		const PASS = "";
 
@@ -95,13 +100,13 @@
 			if ($con->rowCount() == 1)
 			{
 				$dados = $con->fetch(PDO::FETCH_OBJ);
-				echo  $dados->expires_date_at ;
+				/*echo  $dados->expires_date_at ;
 				echo "<br>";
 				
 				echo $dados->atual;
-				echo "<br>";
-$data1 = new DateTime($dados->expires_date_at );
-$data2 = new DateTime($dados->atual);
+				echo "<br>";*/
+			$data1 = new DateTime($dados->expires_date_at );
+			$data2 = new DateTime($dados->atual);
 
 				
 				if ($data1>$data2)
@@ -176,7 +181,7 @@ $data2 = new DateTime($dados->atual);
 
 				$response = curl_exec($curl);
 				$err = curl_error($curl);
-				
+				//echo $response;
 				curl_close($curl);
 				return $response;
 		}
@@ -211,7 +216,72 @@ $data2 = new DateTime($dados->atual);
 				return $response;
 		}
 		
+	public function printVeiculos()
+	{
+		foreach ( $this->listVeiculos as $item)
+		{
+			$item->printVeiculo();
+		}
+	}	
 		
+	public function insertVeiculos()
+	{
+			$pdo = $this->getDB();
+
+			
+		foreach ( $this->listVeiculos as $item)
+		{
+			$con = $pdo->prepare("insert into veiculos 
+														(
+														id_veiculo,
+														placa,
+														icone,
+														timezone,
+														modulo,
+														data,
+														lat,
+														lon,
+														velocidade,
+														status_online,
+														tipo
+														) values 
+														(
+															?,
+															?,
+															?,
+															?,
+															?,
+															?,
+															?,
+															?,
+															?,
+															?,
+															?
+														);
+								");
+			$con->bindValue(1, $item->id_veiculo);
+			$con->bindValue(2, $item->placa);
+			$con->bindValue(3, $item->icone);
+			$con->bindValue(4, $item->timezone);
+			$con->bindValue(5, $item->modulo);
+			$con->bindValue(6, $item->data);
+			$con->bindValue(7, $item->lat);		
+			$con->bindValue(8, $item->lon);		
+			$con->bindValue(9, $item->velocidade);		
+			$con->bindValue(10, $item->status_online);		
+			$con->bindValue(11, $item->tipo);				
+			$con->execute();
+			if ($con->rowCount() >0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+			
+		}
+	}		
 		
 	private static function conectar() {
 

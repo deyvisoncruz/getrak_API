@@ -4,6 +4,7 @@
 	require_once "classes/Conexao.class.php";
 	require_once "classes/Usuario.class.php";
 	require_once "classes/enviar_post.class.php";
+	require_once "classes/veiculos.class.php";
 
 	if(isset($_GET['logout'])):
 		if($_GET['logout'] == 'confirmar'):
@@ -63,15 +64,32 @@ echo "</br>";
 
 $jGet = $c->requestGet();
 
-
+echo $jGet;
 $json = json_decode($jGet,FALSE );
+$c->listVeiculos =  new ArrayObject();  
 foreach ( $json->veiculos as $item)
 {
-	echo "<div>placa: " . $item->{'placa'} . "</div>";
-        echo "<br />"; 
+	
+	$v = new veiculos();
+	 
+	$v->id_veiculo = $item->{'id_veiculo'};
+	$v->placa = $item->{'placa'};
+	$v->icone = $item->{'icone'};
+	$v->timezone = $item->{'timezone'};
+	$v->modulo = $item->{'modulo'};
+	$v->data = $item->{'data'};
+	$v->lat = $item->{'lat'};
+	$v->lon = $item->{'lon'};
+	$v->velocidade = $item->{'velocidade'};
+	$v->status_online = $item->{'status_online'};
+	$v->tipo = $item->{'tipo'};
+	
+	$c->listVeiculos->append($v);
+	
+	
 }
 
-       
+       $c->insertVeiculos();
 ?>
 	
 
