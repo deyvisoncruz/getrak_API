@@ -85,11 +85,18 @@ foreach ( $json->veiculos as $item)
 	$v->tipo = $item->{'tipo'};
 	
 	$c->listVeiculos->append($v);
-	
-	
+	if ($c->verifyVeiculo($v))
+	{
+		$c->updateVeiculo($v);
+		echo "update";
+	}
+	else
+	{
+		$c->insertVeiculo($v);
+		echo "insert";
+	}
 }
 
-       $c->insertVeiculos();
 ?>
 	
 

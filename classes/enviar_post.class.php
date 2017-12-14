@@ -271,6 +271,170 @@
 			$con->bindValue(10, $item->status_online);		
 			$con->bindValue(11, $item->tipo);				
 			$con->execute();
+			
+			
+		}
+	}
+	
+	
+	
+	
+	public function updateVeiculos()
+	{
+			$pdo = $this->getDB();
+
+			
+		foreach ( $this->listVeiculos as $item)
+		{
+			$con = $pdo->prepare("update veiculos set
+													placa =?,
+													icone =?,
+													timezone =?,
+													modulo =?,
+													data =?,
+													lat =?,
+													lon =?,
+													velocidade =?,
+													status_online =?,
+													tipo =?
+								 where id_veiculo = ?"
+								
+								);
+			$con->bindValue(1, $item->placa);
+			$con->bindValue(2, $item->icone);
+			$con->bindValue(3, $item->timezone);
+			$con->bindValue(4, $item->modulo);
+			$con->bindValue(5, $item->data);
+			$con->bindValue(6, $item->lat);		
+			$con->bindValue(7, $item->lon);		
+			$con->bindValue(8, $item->velocidade);		
+			$con->bindValue(9, $item->status_online);		
+			$con->bindValue(10, $item->tipo);
+			$con->bindValue(11, $item->id_veiculo);
+			
+			$con->execute();
+			
+			
+		}
+	}		
+	
+	
+	
+	public function insertVeiculo($item)
+	{
+		$pdo = $this->getDB();
+
+		$con = $pdo->prepare("insert into veiculos 
+														(
+														id_veiculo,
+														placa,
+														icone,
+														timezone,
+														modulo,
+														data,
+														lat,
+														lon,
+														velocidade,
+														status_online,
+														tipo
+														) values 
+														(
+															?,
+															?,
+															?,
+															?,
+															?,
+															?,
+															?,
+															?,
+															?,
+															?,
+															?
+														);
+							");
+		$con->bindValue(1, $item->id_veiculo);
+		$con->bindValue(2, $item->placa);
+		$con->bindValue(3, $item->icone);
+		$con->bindValue(4, $item->timezone);
+		$con->bindValue(5, $item->modulo);
+		$con->bindValue(6, $item->data);
+		$con->bindValue(7, $item->lat);		
+		$con->bindValue(8, $item->lon);		
+		$con->bindValue(9, $item->velocidade);		
+		$con->bindValue(10, $item->status_online);		
+		$con->bindValue(11, $item->tipo);				
+		$con->execute();
+		if ($con->rowCount() >0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		
+	
+	}
+	
+	public function updateVeiculo($item)
+	{
+		$pdo = $this->getDB();
+
+		$con = $pdo->prepare("update veiculos set
+													placa =?,
+													icone =?,
+													timezone =?,
+													modulo =?,
+													data =?,
+													lat =?,
+													lon =?,
+													velocidade =?,
+													status_online =?,
+													tipo =?
+								 where id_veiculo = ?"
+								
+								);
+		$con->bindValue(1, $item->placa);
+		$con->bindValue(2, $item->icone);
+		$con->bindValue(3, $item->timezone);
+		$con->bindValue(4, $item->modulo);
+		$con->bindValue(5, $item->data);
+		$con->bindValue(6, $item->lat);		
+		$con->bindValue(7, $item->lon);		
+		$con->bindValue(8, $item->velocidade);		
+		$con->bindValue(9, $item->status_online);		
+		$con->bindValue(10, $item->tipo);
+		$con->bindValue(11, $item->id_veiculo);
+		
+		$con->execute();
+		if ($con->rowCount() >0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}	
+			
+		
+	}		
+	
+	
+	
+	public function verifyVeiculo($item)
+	{
+			$pdo = $this->getDB();
+
+			
+			$con = $pdo->prepare(
+								"select * 
+								 from veiculos
+								 where id_veiculo = ?"					
+								);
+		
+			$con->bindValue(1, $item->id_veiculo);
+			
+			$con->execute();
 			if ($con->rowCount() >0)
 			{
 				return true;
@@ -280,9 +444,8 @@
 				return false;
 			}
 			
-		}
-	}		
 		
+	}		
 	private static function conectar() {
 
 		try {
